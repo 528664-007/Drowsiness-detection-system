@@ -1,0 +1,54 @@
+# Aegis-Wake v4.0 Configuration
+
+detection:
+  # ── Calibration ──────────────────────────────────────────────────────
+  calibration_frames: 120         # 4s at 30fps — more stable baseline
+  calibration_multiplier: 0.78    # threshold = baseline * this  (was 0.72 → too tight)
+  default_threshold: 0.20         # used only during warmup (normalized EAR is higher)
+
+  # ── EAR smoothing ────────────────────────────────────────────────────
+  ear_smoothing_window: 9         # wider window → less jitter from head movement
+
+  # ── Blink filter ─────────────────────────────────────────────────────
+  blink_max_frames: 8             # natural blink is 3-8 frames — ignore all of these
+
+  # ── Drowsy detection ─────────────────────────────────────────────────
+  consecutive_frames_drowsy: 60   # 2.0s at 30fps  (was 48 = 1.6s; was 20 = 0.67s!)
+
+  # ── Hysteresis ───────────────────────────────────────────────────────
+  reset_frames: 20                # need 20 open frames to go back to ACTIVE
+
+  # ── Sleep detection ──────────────────────────────────────────────────
+  sleeping_seconds: 5.0
+
+  # ── PERCLOS ──────────────────────────────────────────────────────────
+  perclos_window_seconds: 60
+  perclos_drowsy_threshold: 0.20  # >20% eye closure in window
+  perclos_sleep_threshold:  0.40  # >40% eye closure in window
+
+  # ── Head-nod ─────────────────────────────────────────────────────────
+  nod_pitch_threshold: 20.0       # degrees of forward head drop
+  nod_consec_frames:   25
+
+camera:
+  device_id: 0
+  width: 640
+  height: 480
+  fps: 30
+
+alarm:
+  sound_file: "assets/alarm.wav"
+  volume: 0.9
+  # repeat_interval: seconds between repeat plays (0 = continuous)
+  repeat_interval: 2.0
+
+logging:
+  csv_file: "logs/drowsiness_log.csv"
+  log_interval_seconds: 1.0
+
+visualization:
+  font_scale: 0.65
+  thickness: 2
+  show_mesh: true
+  show_perclos: true
+  show_head_pose: true

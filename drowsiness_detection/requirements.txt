@@ -1,0 +1,7 @@
+opencv-python==4.8.1.78
+mediapipe==0.10.7
+numpy==1.24.3
+pandas==2.0.3
+pygame==2.5.2
+pyyaml==6.0.1
+scipy==1.11.3
