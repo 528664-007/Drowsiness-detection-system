@@ -36,6 +36,7 @@
 - [Contributing](#-contributing)
 - [License](#-license)
 - [Acknowledgments](#-acknowledgments)
+- [Outputs](Outputs)
 
 ---
 
@@ -1105,6 +1106,13 @@ htmlcov/
 *.wav
 !alarm.wav
 
+## Outputs
+<img width="851" height="892" alt="Screenshot 2026-06-26 162740" src="https://github.com/user-attachments/assets/c077f08b-7b63-4f2a-8591-148ad6df020f" />
+<img width="813" height="873" alt="Screenshot 2026-06-26 162801" src="https://github.com/user-attachments/assets/3732cfc7-d011-44c6-9fcb-30eff7aaea56" />
+<img width="803" height="871" alt="Screenshot 2026-06-26 162838" src="https://github.com/user-attachments/assets/667ecec7-0b5b-4b90-90a1-885d49e5ed9c" />
+
+
+
 
 ### **LICENSE**
 
@@ -1131,13 +1139,3 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-This professional README provides:
-- Comprehensive project overview
-- Detailed installation instructions
-- Complete configuration guide
-- Performance metrics
-- API documentation
-- Troubleshooting guide
-- Contributing guidelines
-
-The project is now ready for GitHub with a professional, well-documented appearance!
