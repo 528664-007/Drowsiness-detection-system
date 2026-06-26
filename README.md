@@ -1,6 +1,4 @@
 # Professional README.md for GitHub
-
-```markdown
 <div align="center">
   
 # 🚗 Real-Time Driver Drowsiness Detection System
@@ -123,7 +121,7 @@ The system provides a real-time telemetry dashboard showing:
 
 ## 🏗️ System Architecture
 
-```
+
 ┌─────────────────────────────────────────────────────────────────────┐
 │                     APPLICATION LAYER                               │
 ├─────────────────────────────────────────────────────────────────────┤
@@ -156,11 +154,11 @@ The system provides a real-time telemetry dashboard showing:
 ├─────────────────────────────────────────────────────────────────────┤
 │                    Webcam / Audio Output                            │
 └─────────────────────────────────────────────────────────────────────┘
-```
+
 
 ### Data Flow Diagram
 
-```
+
 Camera → Capture Thread → Queue → Processing Thread → Detection → Results
                                                                       │
                                            ┌────────────────────────┘
@@ -174,7 +172,7 @@ Camera → Capture Thread → Queue → Processing Thread → Detection → Resu
                                            ├─── Audio Alert
                                            ├─── CSV Logging
                                            └─── Telemetry Graph
-```
+
 
 ---
 
@@ -225,14 +223,14 @@ Camera → Capture Thread → Queue → Processing Thread → Detection → Resu
 
 #### 1. Clone the Repository
 
-```bash
+bash
 git clone https://github.com/yourusername/drowsiness-detection.git
 cd drowsiness-detection
-```
+
 
 #### 2. Create Virtual Environment (Recommended)
 
-```bash
+bash
 # Create virtual environment
 python -m venv venv
 
@@ -241,21 +239,21 @@ venv\Scripts\activate
 
 # Activate on macOS/Linux
 source venv/bin/activate
-```
+
 
 #### 3. Install Dependencies
 
-```bash
+bash
 # Install required packages
 pip install -r requirements.txt
 
 # For GPU support (optional)
 pip install opencv-python-headless cudatoolkit
-```
+
 
 #### 4. Setup Alarm Sound
 
-```bash
+bash
 # Option 1: Download a free alarm sound
 # Download from: https://www.zapsplat.com/sound-effect-category/alarms/
 
@@ -265,11 +263,11 @@ with wave.open('alarm.wav', 'w') as wf:
     wf.setnchannels(1); wf.setsampwidth(2); wf.setframerate(44100); 
     [wf.writeframes(struct.pack('<h', int(32767.0*math.sin(2*math.pi*440*i/44100)))) 
      for i in range(44100)]"
-```
+
 
 #### 5. Verify Installation
 
-```bash
+bash
 # Test camera
 python -c "import cv2; cap=cv2.VideoCapture(0); print('Camera OK' if cap.isOpened() else 'Camera failed')"
 
@@ -278,11 +276,11 @@ python -c "import pygame; pygame.mixer.init(); print('Audio OK')"
 
 # Run system
 python drowsiness_system.py
-```
+
 
 ### Docker Installation (Alternative)
 
-```dockerfile
+dockerfile
 # Build Docker image
 docker build -t drowsiness-detection .
 
@@ -293,7 +291,7 @@ docker run -it --rm \
     -e DISPLAY=$DISPLAY \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     drowsiness-detection
-```
+
 
 ---
 
@@ -301,7 +299,7 @@ docker run -it --rm \
 
 ### Configuration File (`config.yaml`)
 
-```yaml
+yaml
 # ============================================================
 # REAL-TIME DRIVER DROWSINESS DETECTION SYSTEM
 # Configuration File
@@ -395,20 +393,20 @@ performance:
   num_threads: 4            # Processing threads
   priority: "high"          # Thread priority
   cache_frames: true        # Cache frames for processing
-```
+
 
 ### Environment Variables
 
 Create a `.env` file for sensitive configuration:
 
-```bash
+bash
 # .env file
 CAMERA_DEVICE=0
 EAR_THRESHOLD=0.25
 ALARM_VOLUME=0.7
 LOG_LEVEL=INFO
 TELEMETRY_ENABLED=true
-```
+
 
 ---
 
@@ -416,7 +414,7 @@ TELEMETRY_ENABLED=true
 
 ### Basic Usage
 
-```bash
+bash
 # Run with default configuration
 python drowsiness_system.py
 
@@ -431,11 +429,11 @@ python drowsiness_system.py --debug
 
 # Run with specific camera
 python drowsiness_system.py --camera 1
-```
+
 
 ### Command Line Arguments
 
-```bash
+bash
 python drowsiness_system.py --help
 
 usage: drowsiness_system.py [-h] [--config CONFIG] [--camera CAMERA] 
@@ -451,7 +449,7 @@ Optional arguments:
   --telemetry           Enable telemetry plotting
   --log-level {DEBUG,INFO,WARNING,ERROR}
                         Set logging level
-```
+
 
 ### GUI Controls
 
@@ -482,7 +480,7 @@ Optional arguments:
 
 The system uses **MediaPipe Face Mesh** to detect 468 facial landmarks in real-time:
 
-```python
+python
 # Face mesh detection
 mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh(
@@ -491,13 +489,13 @@ face_mesh = mp_face_mesh.FaceMesh(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5
 )
-```
+
 
 ### 2. Eye Aspect Ratio (EAR) Calculation
 
 The EAR is calculated using the distance between vertical and horizontal eye landmarks:
 
-```
+
      p1   p2   p3
      │    │    │
 p4 ──┼────┼────┼── p5
@@ -505,7 +503,7 @@ p4 ──┼────┼────┼── p5
      p6   p7   p8
 
 EAR = (||p2 - p6|| + ||p3 - p5||) / (2 * ||p1 - p4||)
-```
+
 
 Where:
 - `p1, p4` - Horizontal eye width
@@ -519,7 +517,7 @@ Where:
 
 ### 3. Drowsiness Detection Logic
 
-```python
+python
 def detect_state(ear):
     if ear < threshold:
         consecutive_frames += 1
@@ -531,17 +529,17 @@ def detect_state(ear):
         consecutive_frames = 0
         closure_duration = 0
     return "ACTIVE"
-```
+
 
 ### 4. Multi-Threaded Architecture
 
-```
+
 Thread 1 (Capture):    ──► Frame Buffer ──►
 Thread 2 (Process):    ◄── Frame Buffer ──► Result Queue
 Thread 3 (Display):    ◄── Result Queue ──► Screen
 Thread 4 (Alarm):      ◄── Status Update ──► Audio
 Thread 5 (Telemetry):  ◄── EAR Data ───────► Graph
-```
+
 
 ### 5. Calibration Process
 
@@ -591,7 +589,7 @@ The system automatically calibrates during the first 30 frames:
 
 ## 📁 Project Structure
 
-```
+
 drowsiness-detection/
 │
 ├── drowsiness_system.py      # Complete system implementation
@@ -623,7 +621,7 @@ drowsiness-detection/
     ├── headless_mode.py
     ├── api_server.py
     └── custom_threshold.py
-```
+
 
 ---
 
@@ -632,7 +630,7 @@ drowsiness-detection/
 ### Core Classes
 
 #### `VideoHandler`
-```python
+python
 class VideoHandler:
     """Handles video capture with buffering"""
     
@@ -647,10 +645,10 @@ class VideoHandler:
     
     def stop()
         """Release camera resources"""
-```
+
 
 #### `DrowsinessDetector`
-```python
+python
 class DrowsinessDetector:
     """Detects drowsiness using EAR calculation"""
     
@@ -665,10 +663,10 @@ class DrowsinessDetector:
     
     def calibrate_threshold(frames: int)
         """Manually calibrate threshold"""
-```
+
 
 #### `AudioAlarm`
-```python
+python
 class AudioAlarm:
     """Manages audio alarm playback"""
     
@@ -683,10 +681,10 @@ class AudioAlarm:
     
     def is_playing() -> bool
         """Check if alarm is playing"""
-```
+
 
 #### `CSVLogger`
-```python
+python
 class CSVLogger:
     """Handles CSV logging"""
     
@@ -701,11 +699,11 @@ class CSVLogger:
     
     def export_to_json(filename: str)
         """Export logs to JSON format"""
-```
+
 
 ### Events & Callbacks
 
-```python
+python
 # Register callbacks for custom behavior
 def on_state_change(old_state: str, new_state: str):
     print(f"State changed from {old_state} to {new_state}")
@@ -716,7 +714,7 @@ def on_alarm_triggered(status: str):
 # Usage
 detector.register_state_callback(on_state_change)
 alarm.register_trigger_callback(on_alarm_triggered)
-```
+
 
 ---
 
@@ -732,7 +730,7 @@ alarm.register_trigger_callback(on_alarm_triggered)
 - No video feed
 
 **Solutions:**
-```bash
+bash
 # Linux: Check permissions
 ls -la /dev/video*
 sudo chmod 666 /dev/video0
@@ -745,7 +743,7 @@ python -c "import cv2; cap=cv2.VideoCapture(0); print('OK' if cap.isOpened() els
 
 # Try different camera ID
 python drowsiness_system.py --camera 1
-```
+
 
 #### 2. Low FPS
 
@@ -755,7 +753,7 @@ python drowsiness_system.py --camera 1
 - Lagging detection
 
 **Solutions:**
-```yaml
+yaml
 # Reduce resolution in config.yaml
 camera:
   width: 320
@@ -770,7 +768,7 @@ performance:
   use_gpu: true
 
 # Close other applications
-```
+
 
 #### 3. No Alarm Sound
 
@@ -780,7 +778,7 @@ performance:
 - Alarm not triggering
 
 **Solutions:**
-```bash
+bash
 # Check sound file exists
 ls -la alarm.wav
 
@@ -795,7 +793,7 @@ pygame.mixer.Sound('alarm.wav').play(); import time; time.sleep(2)"
 
 # Try different sound format
 # Convert to: WAV, 16-bit PCM, 44100Hz
-```
+
 
 #### 4. False Positives/Negatives
 
@@ -804,7 +802,7 @@ pygame.mixer.Sound('alarm.wav').play(); import time; time.sleep(2)"
 - No trigger when drowsy
 
 **Solutions:**
-```yaml
+yaml
 # Adjust threshold
 detection:
   eye_aspect_ratio_threshold: 0.30  # Less sensitive
@@ -818,12 +816,12 @@ detection:
 # Ensure good lighting
 # Face should be well-lit
 # No backlighting
-```
+
 
 #### 5. High CPU Usage
 
 **Solutions:**
-```yaml
+yaml
 # Reduce resolution
 camera:
   width: 320
@@ -839,15 +837,15 @@ camera:
 
 # Enable headless mode
 python drowsiness_system.py --no-gui
-```
+
 
 ### Debug Mode
 
 Enable debug mode for detailed logging:
 
-```bash
+bash
 python drowsiness_system.py --debug
-```
+
 
 Debug output includes:
 - Frame-by-frame analysis
@@ -860,12 +858,12 @@ Debug output includes:
 
 Logs are written to `drowsiness_log.csv`:
 
-```csv
+csv
 timestamp,ear_value,status,closure_duration,fps
 2026-01-15 14:30:25,0.283,active,0.00,30.2
 2026-01-15 14:30:26,0.152,drowsy,1.23,29.8
 2026-01-15 14:30:27,0.098,sleeping,2.15,30.1
-```
+
 
 ---
 
@@ -875,7 +873,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ### Development Setup
 
-```bash
+bash
 # Clone repository
 git clone https://github.com/yourusername/drowsiness-detection.git
 cd drowsiness-detection
@@ -898,7 +896,7 @@ flake8 drowsiness_system.py
 
 # Format code
 black drowsiness_system.py
-```
+
 
 ### How to Contribute
 
@@ -922,7 +920,7 @@ When reporting issues, please include:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-```
+
 MIT License
 
 Copyright (c) 2026 [Your Name]
@@ -944,7 +942,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-```
+
 
 ---
 
@@ -994,14 +992,14 @@ SOFTWARE.
 **Made with ❤️ by [Your Name]**
 
 </div>
-```
+
 
 ---
 
 ## Additional Files for GitHub
 
 ### **CONTRIBUTING.md**
-```markdown
+markdown
 # Contributing to Drowsiness Detection System
 
 We love your input! We want to make contributing to this project as easy and transparent as possible.
@@ -1044,10 +1042,10 @@ We love your input! We want to make contributing to this project as easy and tra
 ## License
 
 By contributing, you agree that your contributions will be licensed under its MIT License.
-```
+
 
 ### **.gitignore**
-```gitignore
+gitignore
 # Python
 __pycache__/
 *.py[cod]
@@ -1106,10 +1104,10 @@ htmlcov/
 *.avi
 *.wav
 !alarm.wav
-```
+
 
 ### **LICENSE**
-```text
+
 MIT License
 
 Copyright (c) 2026 [Your Name]
@@ -1131,7 +1129,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-```
+
 
 This professional README provides:
 - Comprehensive project overview
