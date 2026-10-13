@@ -1,0 +1,41 @@
+# Contributing to the Drowsiness Detection System
+
+Thanks for your interest in contributing. The goal is to make contributing as easy and transparent as possible.
+
+## Development Process
+
+1. Fork the repo and create your branch from `main`.
+2. If you've added code that should be tested, add tests.
+3. If you've changed APIs, update the documentation.
+4. Make sure the test suite passes.
+5. Make sure your code lints (`flake8`) and is formatted (`black`).
+6. Open a pull request.
+
+## Pull Request Process
+
+1. Update `README.md` with details of changes if needed.
+2. Update the docs with any new functionality.
+3. The PR will be reviewed and merged by the maintainer once checks pass.
+
+## Code Style
+
+- Use Python 3.10+ features
+- Follow PEP 8
+- Use type hints
+- Write docstrings for all public functions and classes
+
+## Testing
+
+- Write unit tests for new features
+- Ensure all tests pass
+- Test on more than one platform where possible
+
+## Issues
+
+- Provide reproduction steps
+- Include system information (OS, Python version)
+- Add screenshots or logs if applicable
+
+## License
+
+By contributing, you agree that your contributions will be licensed under the MIT License.
